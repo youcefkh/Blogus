@@ -18,4 +18,11 @@ class Post extends Model
     public function categories() {
         return $this->belongsToMany(Category::class);
     }
+
+    public function getThumbnail() {
+        if(str_starts_with($this->thumbnail, 'http')) {
+            return $this->thumbnail;
+        }
+        return asset('/storage/'. $this->thumbnail);
+    }
 }
