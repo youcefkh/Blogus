@@ -36,11 +36,11 @@ class TextWidgetResource extends Resource
                             ->required()
                             ->maxLength(255),
                     ]),
-                    Forms\Components\Textarea::make('content'),
+                    Forms\Components\RichEditor::make('content'),
                     Forms\Components\FileUpload::make('image')->image(),
                 Forms\Components\Toggle::make('active')
                     ->required(),
-            ]);
+            ])->columns(1);
     }
 
     public static function table(Table $table): Table

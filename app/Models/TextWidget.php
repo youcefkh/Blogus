@@ -22,7 +22,7 @@ class TextWidget extends Model
         return $widget ? $widget->title : '';
     }
 
-    public static function getContent(string $key):string
+    public static function getContent(string $key):string | null
     {
         $widget = Cache::get('text-widget-' . $key, function () use ($key) {
             return self::where('key', $key)->where('active', 1)->first();

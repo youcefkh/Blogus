@@ -10,7 +10,8 @@
 
         <!-- Pagination -->
         <!-- views/vendor/pagination/tailwind.blade.php -->
-        {{$posts->links()}}
+        {{ $posts->links() }}
+
 
         {{-- <div class="flex items-center py-8">
             <a href="#"
@@ -23,5 +24,8 @@
         </div> --}}
 
     </section>
+
+    <!-- Sidebar Section -->
+    <x-sidebar />
 
 </x-app-layout>
