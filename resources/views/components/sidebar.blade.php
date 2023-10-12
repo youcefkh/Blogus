@@ -3,7 +3,7 @@
     <div class="w-full bg-white shadow flex flex-col my-4 p-6">
         <h3 class="text-xl font-semibold mb-3">All categories</h3>
         @foreach ($categories as $category)
-            <a href="#" class="text-semibold block py-2 px-3 rounded hover:bg-blue-200">{{$category->title}} ({{$category->total}})</a>
+            <a href="{{route('category', $category)}}" class="text-semibold block py-2 px-3 rounded hover:bg-blue-200">{{$category->title}} ({{$category->total}})</a>
         @endforeach
     </div>
 

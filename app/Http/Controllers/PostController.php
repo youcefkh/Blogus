@@ -8,6 +8,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
 
+use function Laravel\Prompts\select;
+
 class PostController extends Controller
 {
     /**
@@ -18,7 +20,7 @@ class PostController extends Controller
         $posts = Post::where('active', 1)
                     ->where('published_at', '<=', Carbon::now())
                     ->with(['categories' => function ($query) {
-                        $query->select('category_id', 'title');
+                        $query->select('slug', 'title');
                     }])
                     ->with(['user' => function ($query) {
                         $query->select('id', 'name');
@@ -27,22 +29,6 @@ class PostController extends Controller
                     ->paginate(5);
                     
         return view('home', compact('posts'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -78,7 +64,13 @@ class PostController extends Controller
                     ->where('category_post.category_id', $category->id)
                     ->where('active', 1)
                     ->where('published_at', '<=', Carbon::now())
-                    ->groupBy('posts.id')
+                    ->select('posts.*')
+                    ->with(['categories' => function ($query) {
+                        $query->select('slug', 'title');
+                    }])
+                    ->with(['user' => function ($query) {
+                        $query->select('id', 'name');
+                    }])
                     ->orderBy('published_at', 'desc')
                     ->paginate(5);
 
