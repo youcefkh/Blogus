@@ -59,7 +59,7 @@
     <!-- Text Header -->
     <header class="w-full container mx-auto">
         <div class="flex flex-col items-center py-12">
-            <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="#">
+            <a class="font-bold text-gray-800 uppercase hover:text-gray-700 text-5xl" href="/">
                 Blogus
             </a>
             <p class="text-lg text-gray-600">
@@ -84,7 +84,7 @@
                 @foreach ($categories as $category)
                     <a href="{{route('category', $category)}}" class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2">{{ $category->title }}</a>
                 @endforeach
-                <a href="#" class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2">About us</a>
+                <a href="{{route('about-us')}}" class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2">About us</a>
             </div>
         </div>
     </nav>
