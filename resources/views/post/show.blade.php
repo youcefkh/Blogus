@@ -28,7 +28,7 @@
                 </div>
                 <h1 class="text-3xl font-bold hover:text-gray-700 pb-4">{{ $post->title }}</h1>
                 <p href="#" class="text-sm pb-4">
-                    By <a href="#" class="font-semibold hover:text-gray-800"{{ $post->user->name }}</a>, Published
+                    By <a href="#" class="font-semibold hover:text-gray-800">{{ $post->user->name }} </a>, Published
                         on
                         {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }} </a>
                 </p>
@@ -63,12 +63,12 @@
         </div>
 
         <div class="w-full flex flex-col text-center md:text-left md:flex-row shadow bg-white mt-10 mb-10 p-6">
-            <div class="w-full md:w-1/5 flex justify-center md:justify-start pb-4">
+            <div class="w-full md:w-1/3 lg:w-1/5 flex justify-center md:justify-start pb-4">
                 <img src="https://source.unsplash.com/collection/1346951/150x150?sig=1"
                     class="rounded-full shadow h-32 w-32">
             </div>
             <div class="flex-1 flex flex-col justify-center md:justify-start">
-                <p class="font-semibold text-2xl">David</p>
+                <p class="font-semibold text-2xl">{{ $post->user->name }}</p>
                 <p class="pt-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vel neque non
                     libero suscipit suscipit eu eu urna.</p>
                 <div class="flex items-center justify-center md:justify-start text-2xl no-underline text-blue-800 pt-4">
