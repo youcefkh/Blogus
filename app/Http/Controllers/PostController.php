@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Carbon\Carbon;
+use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -48,7 +49,27 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
-        //
+        if(!$post->active || $post->published_at > Carbon::now()) {
+            abort(404);
+        }
+
+        $prev = Post::where('active', 1)
+                    ->where('published_at', '<=', Carbon::now())
+                    ->where('published_at', '>', $post->published_at)
+                    ->select('slug', 'title')
+                    ->orderBy('published_at', 'asc')
+                    ->limit(1)
+                    ->first();
+
+        $next = Post::where('active', 1)
+                    ->where('published_at', '<=', Carbon::now())
+                    ->where('published_at', '<', $post->published_at)
+                    ->select('slug', 'title')
+                    ->orderBy('published_at', 'desc')
+                    ->limit(1)
+                    ->first();
+
+        return view('post.show', compact('post', 'next', 'prev'));
     }
 
     /**

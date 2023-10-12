@@ -72,9 +72,11 @@ class PostResource extends Resource
                 Tables\Columns\IconColumn::make('active')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('published_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime(),
+                    ->dateTime()
+                    ->sortable(),
             ])
             ->filters([
                 //
@@ -86,7 +88,7 @@ class PostResource extends Resource
             ])
             ->bulkActions([
                 Tables\Actions\DeleteBulkAction::make(),
-            ]);
+            ])->defaultSort('published_at', 'desc');
     }
 
     public static function getRelations(): array
