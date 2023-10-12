@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Post;
 use Carbon\Carbon;
-use Illuminate\Cache\RateLimiting\Limit;
+use App\Models\Post;
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Cache\RateLimiting\Limit;
 
 class PostController extends Controller
 {
@@ -72,27 +73,15 @@ class PostController extends Controller
         return view('post.show', compact('post', 'next', 'prev'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Post $post)
-    {
-        //
-    }
+    public function byCategory (Category $category) {
+        $posts = Post::join('category_post', 'posts.id', '=', 'category_post.post_id')
+                    ->where('category_post.category_id', $category->id)
+                    ->where('active', 1)
+                    ->where('published_at', '<=', Carbon::now())
+                    ->groupBy('posts.id')
+                    ->orderBy('published_at', 'desc')
+                    ->paginate(5);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Post $post)
-    {
-        //
+        return view('category.index', compact('posts', 'category'));
     }
 }

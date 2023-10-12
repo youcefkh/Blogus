@@ -16,3 +16,4 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', [PostController::class, 'index'])->name('home');
 Route::get('posts/{post:slug}', [PostController::class, 'show'])->name('post.show');
+Route::get('category/{category:slug}', [PostController::class, 'byCategory'])->name('category');
