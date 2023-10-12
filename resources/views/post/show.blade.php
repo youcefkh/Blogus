@@ -16,7 +16,7 @@
         <article class="flex flex-col shadow my-4">
             <!-- Article Image -->
             <div class="hover:opacity-75">
-                <img class="h-96 w-full object-cover" src="{{ $post->getThumbnail() }}">
+                <img class="w-full object-cover" src="{{ $post->getThumbnail() }}">
             </div>
             <div class="bg-white flex flex-col justify-start p-6">
                 <div class="text-blue-700 text-sm font-bold uppercase pb-4 d-inline-block">
