@@ -3,8 +3,10 @@
 namespace App\View\Components;
 
 use Closure;
-use Illuminate\Contracts\View\View;
+use App\Models\Category;
 use Illuminate\View\Component;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Contracts\View\View;
 
 class Sidebar extends Component
 {
@@ -21,6 +23,13 @@ class Sidebar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.sidebar');
+        $categories = Category::query()
+                                ->leftJoin('category_post', 'categories.id', '=', 'category_post.category_id')
+                                ->select('categories.title', 'categories.slug', DB::raw('count(*) as total'))
+                                ->groupBy('categories.id')
+                                ->orderBy('total', 'desc')
+                                ->get();
+
+        return view('components.sidebar', compact('categories'));
     }
 }
