@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.font-family-karla {
+    font-family: karla;
+}
+
+.post-body *, .content * {
+    all: revert;
+}
+
+.post-body pre {
+    background: rgb(39, 40, 34);
+    color: #ffffff;
+    font-size: 14px;
+    padding: 8px;
+}

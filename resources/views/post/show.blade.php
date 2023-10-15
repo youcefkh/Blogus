@@ -1,15 +1,3 @@
-<style type="text/css" scoped>
-    .post-body * {
-        all: revert;
-    }
-
-    .post-body pre {
-        background: rgb(39, 40, 34);
-        color: #ffffff;
-        font-size: 14px;
-        padding: 8px;
-    }
-</style>
 <x-app-layout :meta-title="$post->meta_title ?: $post->title" :meta-description="$post->meta_description ?: $post->description">
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
 
