@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blogus</title>
+    <title>{{$metaTitle ? $metaTitle.' - Blogus' : 'Blogus'}}</title>
     <meta name="author" content="Youcef Khaoua">
-    <meta name="description" content="">
+    <meta name="description" content="{{$metaDescription}}">
 
     <!-- Tailwind -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">

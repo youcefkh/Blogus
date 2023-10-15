@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout meta-description="Blogus is a home for human stories and ideas">
 
     <!-- Posts Section -->
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">

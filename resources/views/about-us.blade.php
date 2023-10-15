@@ -3,7 +3,7 @@
         all: revert;
     }
 </style>
-<x-app-layout>
+<x-app-layout meta-title="About us" meta-description="Blogus is a home for human stories and ideas">
     <section class="flex items-center bg-stone-100 font-poppins dark:bg-gray-800 ">
         <div class="justify-center flex-1 max-w-6xl py-4 mx-auto lg:py-6 md:px-6">
             <div class="flex flex-wrap ">

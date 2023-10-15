@@ -47,6 +47,8 @@ class PostResource extends Resource
                             ]),
                         Forms\Components\RichEditor::make('body')
                             ->required(),
+                        Forms\Components\TextInput::make('meta_title'),
+                        Forms\Components\TextInput::make('meta_description'),
                         Forms\Components\DateTimePicker::make('published_at'),
                         Forms\Components\Toggle::make('active')
                             ->required(),

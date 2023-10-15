@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-app-layout :meta-title="$category->title" meta-descripition="Display posts by category">
     <!-- Posts Section -->
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
         <h1 class="text-4xl font-semibold my-5 mr-auto">
