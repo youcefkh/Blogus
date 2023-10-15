@@ -25,7 +25,7 @@
         integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 </head>
 
-<body class="bg-white font-family-karla">
+<body class="bg-gray-50 font-family-karla">
 
     <!-- Top Bar Nav -->
     <nav class="w-full py-4 bg-blue-800 shadow">
@@ -90,7 +90,7 @@
     </nav>
 
 
-    <div class="container mx-auto flex flex-wrap py-6">
+    <div class="container mx-auto flex flex-wrap flex-col md:flex-row py-6">
 
         <!-- content Section -->
         {{ $slot }}

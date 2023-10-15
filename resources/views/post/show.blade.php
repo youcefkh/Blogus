@@ -19,9 +19,9 @@
                 <img class="w-full object-cover" src="{{ $post->getThumbnail() }}">
             </div>
             <div class="bg-white flex flex-col justify-start p-6">
-                <div class="text-blue-700 text-sm font-bold uppercase pb-4 d-inline-block">
+                <div class="flex gap-4 text-blue-700 text-sm font-bold uppercase pb-4 d-inline-block">
                     @foreach ($post->categories as $category)
-                        <a href="{{ route('category', $category) }}" class="mr-2">
+                        <a href="{{ route('category', $category) }}">
                             {{ $category->title }}
                         </a>
                     @endforeach
