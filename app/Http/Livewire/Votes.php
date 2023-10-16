@@ -20,7 +20,7 @@ class Votes extends Component
         $upvotes = PostVote::where('post_id', $this->post->id)->where('upvote', 1)->count();
         $downvotes = PostVote::where('post_id', $this->post->id)->where('upvote', 0)->count();
 
-        $hasVoted = PostVote::where('post_id', $this->post->id)->where('user_id', request()->user()->id)->first();
+        $hasVoted = PostVote::where('post_id', $this->post->id)->where('user_id', request()->user()?->id)->first();
         $vote = $hasVoted ? $hasVoted->upvote : '';
 
         return view('livewire.votes', compact('upvotes', 'downvotes', 'vote'));
@@ -31,7 +31,7 @@ class Votes extends Component
         $user = request()->user();
 
         if(!$user) {
-            return $this->redirect('login');
+            return $this->redirect(route('login'));
         }
         if(!$user->hasVerifiedEmail()) {
             return $this->redirect(route('verification.notice'));

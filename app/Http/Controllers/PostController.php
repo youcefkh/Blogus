@@ -8,11 +8,13 @@ use App\Models\Category;
 use App\Models\PostView;
 use Illuminate\Http\Request;
 use Illuminate\Cache\RateLimiting\Limit;
+use App\Traits\PostTrait;
 
 use function Laravel\Prompts\select;
 
 class PostController extends Controller
 {
+    use PostTrait;
     /**
      * Display a listing of the resource.
      */
@@ -57,14 +59,8 @@ class PostController extends Controller
                     ->limit(1)
                     ->first();
 
-        $user = $request->user();
-
-        PostView::create([
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'user_id' => $user?->id,
-            'post_id' => $post->id,
-        ]);
+        /** count views */
+        $this->countView($request, $post);
 
         return view('post.show', compact('post', 'next', 'prev'));
     }
