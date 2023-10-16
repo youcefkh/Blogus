@@ -16,6 +16,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"
         integrity="sha256-KzZiKy0DWYsnwMF+X1DvQngQ2/FxF7MF3Ff72XcpuPs=" crossorigin="anonymous"></script>
 
+    <!-- Livewire styles -->
+    @livewireStyles
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -127,10 +130,11 @@
                             </x-dropdown>
                         </div>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2"><i class="fas fa-sign-in-alt"></i> Login</a>
+                        <a href="{{ route('login') }}" class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2"><i
+                                class="fas fa-sign-in-alt"></i> Login</a>
                         <a href="{{ route('register') }}"
-                            class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2"><i class="fas fa-user-plus"></i> Register</a>
+                            class="hover:bg-blue-800 hover:text-white rounded py-2 px-4 mx-2"><i
+                                class="fas fa-user-plus"></i> Register</a>
                     @endauth
                 </div>
             </div>
@@ -157,6 +161,8 @@
         </div>
     </footer>
 
+    <!-- Livewire scripts -->
+    @livewireScripts
 </body>
 
 </html>

@@ -1,6 +1,5 @@
-<x-app-layout :meta-title="$post->meta_title ?: $post->title" :meta-description="$post->meta_description ?: $post->description">
+div<x-app-layout :meta-title="$post->meta_title ?: $post->title" :meta-description="$post->meta_description ?: $post->description">
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
-
         <article class="flex flex-col shadow my-4">
             <!-- Article Image -->
             <div class="hover:opacity-75">
@@ -20,6 +19,7 @@
                         on
                         {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }} </a>
                 </p>
+                <livewire:votes :post="$post"/>
                 <div class="post-body">
                     <!-- Article body -->
                     {!! $post->body !!}

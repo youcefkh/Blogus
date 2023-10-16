@@ -25,4 +25,8 @@ class Post extends Model
         }
         return asset('/storage/'. $this->thumbnail);
     }
+
+    public function votes() {
+        return $this->hasMany(PostVote::class);
+    }
 }
