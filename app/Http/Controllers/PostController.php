@@ -73,8 +73,21 @@ class PostController extends Controller
         }
 
         //show categories with their latest posts
+        $categories = Category::with(['posts'])
+            ->whereHas('posts', function ($query) {
+                $query->where('posts.active', 1)
+                ->where('posts.published_at', '<=', Carbon::now());
+            })
+            ->leftJoin('category_post', 'categories.id', '=', 'category_post.category_id')
+            ->leftJoin('posts', 'category_post.post_id', '=', 'posts.id')
+            ->select('categories.*')
+            ->selectRaw('MAX(posts.published_at) as recent_date')
+            ->orderBy('recent_date', 'desc')
+            ->groupBy('categories.id')
+            ->limit(3)
+            ->get();
 
-        return view('home', compact('latestPosts', 'popularPosts', 'recommendedPosts'));
+        return view('home', compact('latestPosts', 'popularPosts', 'recommendedPosts', 'categories'));
     }
 
     /**
