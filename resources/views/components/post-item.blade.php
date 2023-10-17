@@ -15,7 +15,7 @@
             class="text-3xl font-bold hover:text-gray-700 pb-4">{{ $post->title }}</a>
         <p href="{{ route('post.show', $post) }}" class="text-sm pb-3">
             By <a href="#" class="font-semibold hover:text-gray-800">{{ $post->user->name }}</a>, Published on
-            {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }}
+            {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }} | {{$post->read_time}}min
         </p>
         <div class="pb-6">
             {{ mb_strimwidth(strip_tags($post->body), 0, 200, '...') }}

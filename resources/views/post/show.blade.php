@@ -2,7 +2,7 @@
     <section class="w-full md:w-2/3 flex flex-col items-center px-3">
         <article class="flex flex-col shadow my-4">
             <!-- Article Image -->
-            <div class="hover:opacity-75">
+            <div>
                 <img class="w-full object-cover" src="{{ $post->getThumbnail() }}">
             </div>
             <div class="bg-white flex flex-col justify-start p-6">
@@ -17,7 +17,7 @@
                 <p href="#" class="text-sm pb-4">
                     By <a href="#" class="font-semibold hover:text-gray-800">{{ $post->user->name }} </a>, Published
                         on
-                        {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }} </a>
+                        {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }}  | {{$post->read_time}}min</a>
                 </p>
                 <livewire:votes :post="$post"/>
                 <div class="post-body">
