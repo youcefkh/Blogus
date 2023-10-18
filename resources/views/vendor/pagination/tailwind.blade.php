@@ -29,7 +29,7 @@
         </div>
 
         <!-- Links for desktop -->
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-center">
             <div>
                 <span class="relative z-0 inline-flex">
                     {{-- Previous Page Link --}}

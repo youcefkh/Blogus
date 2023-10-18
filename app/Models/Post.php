@@ -31,6 +31,10 @@ class Post extends Model
         return $this->hasMany(PostVote::class);
     }
 
+    public function comments() {
+        return $this->hasMany(Comment::class);
+    }
+
     public function readTime() : Attribute {
         return new Attribute(get: fn() => (int) ceil(str_word_count(strip_tags($this->body)) / 200));   
     }

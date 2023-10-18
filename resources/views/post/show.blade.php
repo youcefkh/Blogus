@@ -50,6 +50,9 @@
             </div>
         </div>
 
+        <!-- comments section -->
+        <livewire:comments :post="$post" />
+
         <div class="w-full flex flex-col text-center md:text-left md:flex-row shadow bg-white mt-10 mb-10 p-6">
             <div class="w-full md:w-1/3 lg:w-1/5 flex justify-center md:justify-start pb-4">
                 <img src="https://source.unsplash.com/collection/1346951/150x150?sig=1"
