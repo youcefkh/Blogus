@@ -1,7 +1,7 @@
 <article class="flex flex-col shadow my-4">
     <!-- Article Image -->
     <a href="{{ route('post.show', $post) }}" class="hover:opacity-75">
-        <img class="h-96 w-full object-cover" src="{{ $post->getThumbnail() }}">
+        <img class="aspect-[16/9] w-full object-cover" src="{{ $post->getThumbnail() }}">
     </a>
     <div class="bg-white flex flex-col justify-start p-6">
         <div class="flex gap-4 text-blue-700 text-sm font-bold uppercase pb-4 d-inline-block">
@@ -12,7 +12,7 @@
             @endforeach
         </div>
         <a href="{{ route('post.show', $post) }}"
-            class="text-3xl font-bold hover:text-gray-700 pb-4">{{ $post->title }}</a>
+            class="sm:text-3xl text-xl font-bold hover:text-gray-700 pb-4">{{ $post->title }}</a>
         <p href="{{ route('post.show', $post) }}" class="text-sm pb-3">
             By <a href="#" class="font-semibold hover:text-gray-800">{{ $post->user->name }}</a>, Published on
             {{ \Carbon\Carbon::parse($post->published_at)->format('M jS Y') }} | {{$post->read_time}}min

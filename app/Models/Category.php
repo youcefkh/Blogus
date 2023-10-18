@@ -26,12 +26,4 @@ class Category extends Model
             ->limit($limit)
             ->get();
     }
-
-    public function getPostThumbnail($post)
-    {
-        if (str_starts_with($post->thumbnail, 'http')) {
-            return $post->thumbnail;
-        }
-        return asset('/storage/' . $post->thumbnail);
-    }
 }
