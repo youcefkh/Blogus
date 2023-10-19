@@ -1,5 +1,4 @@
-<article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900" x-data="{ open: false }" @click.outside="open = false"
-    @close.stop="open = false">
+<article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900" x-data="{ open: false }" @close.stop="open = false">
     <footer class="flex justify-between items-center mb-2 relative">
         <div class="flex items-center">
             <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
@@ -9,34 +8,35 @@
                     title="February 8th, 2022">{{ $comment->created_at->diffForHumans() }}</time>
             </p>
         </div>
-        <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
-            class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            type="button" @click="open = ! open">
-            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
-                viewBox="0 0 16 3">
-                <path
-                    d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-            </svg>
-            <span class="sr-only">Comment settings</span>
-        </button>
-        <!-- Dropdown menu -->
+
         @auth
-            <div id="dropdownComment1" x-show="open"
+            <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
+                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                type="button" @click="open = ! open">
+                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                    viewBox="0 0 16 3">
+                    <path
+                        d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                </svg>
+                <span class="sr-only">Comment settings</span>
+            </button>
+            <!-- Dropdown menu -->
+            <div id="dropdownComment1" x-show="open" @click.outside="open = false"
                 class="z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 absolute top-9 right-0">
                 <ul class="py-1 text-sm text-gray-700 dark:text-gray-200"
                     aria-labelledby="dropdownMenuIconHorizontalButton">
                     @if (Auth::user()->id == $comment->user_id)
                         <li>
-                            <button wire:click="edit()"
+                            <button @click="open = false" wire:click="startEdit()"
                                 class="block w-full py-2 px-4 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Edit</button>
                         </li>
                         <li>
-                            <button wire:click="delete()"
+                            <button @click="open = false" wire:click="delete()"
                                 class="block w-full py-2 px-4 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Delete</button>
                         </li>
                     @else
                         <li>
-                            <button wire:click="report()"
+                            <button @click="open = false" wire:click="report()"
                                 class="block w-full py-2 px-4 text-left hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Report</button>
                         </li>
                     @endif
@@ -44,7 +44,14 @@
             </div>
         @endauth
     </footer>
-    <p class="text-gray-500 dark:text-gray-400">{{ $comment->comment }}</p>
+    <div>
+        @if ($editing)
+            <livewire:comment-edit :comment-model="$comment"/>
+        @else
+            <p class="text-gray-500 dark:text-gray-400">{{ $comment->comment }}</p>
+        @endif
+
+    </div>
     <div class="flex items-center mt-4 space-x-4">
         <button type="button"
             class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">

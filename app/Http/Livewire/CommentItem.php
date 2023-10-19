@@ -8,6 +8,12 @@ use Livewire\Component;
 class CommentItem extends Component
 {
     public Comment $comment;
+    public bool $editing = false;
+
+    protected $listeners = [
+        'commentEdited' => 'editComment',
+        'cancelEdit' => 'cancelEdit',
+    ];
 
     public function mount(Comment $comment) {
         $this->comment = $comment;
@@ -18,12 +24,23 @@ class CommentItem extends Component
     }
 
     public function delete() {
+        if(!auth()->check() || auth()->user()->id != $this->comment->user_id) {
+            abort(403);
+        }
         $this->comment->delete();
         $this->emitUp('commentDeleted', $this->comment->id);
     }
 
-    public function edit() {
-        
+    public function startEdit() {
+        $this->editing = true;
+    }
+
+    public function editComment() {
+        $this->editing = false;
+    }
+
+    public function cancelEdit() {
+        $this->editing = false;
     }
 
     public function report() {
