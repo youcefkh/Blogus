@@ -1,4 +1,4 @@
-<article class="p-6 text-base bg-white rounded-lg dark:bg-gray-900" x-data="{ open: false }" @close.stop="open = false">
+<article class="px-6 py-3 mb-2 text-base bg-white rounded-lg dark:bg-gray-900" x-data="{ open: false }" @close.stop="open = false">
     <footer class="flex justify-between items-center mb-2 relative">
         <div class="flex items-center">
             <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
@@ -46,14 +46,14 @@
     </footer>
     <div>
         @if ($editing)
-            <livewire:comment-edit :comment-model="$comment"/>
+            <livewire:comment-edit :comment-model="$comment" />
         @else
             <p class="text-gray-500 dark:text-gray-400">{{ $comment->comment }}</p>
         @endif
 
     </div>
     <div class="flex items-center mt-4 space-x-4">
-        <button type="button"
+        <button type="button" wire:click="startReply"
             class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
             <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
                 viewBox="0 0 20 18">
@@ -63,4 +63,7 @@
             Reply
         </button>
     </div>
+    @if ($replying)
+        <livewire:comment-create :parent="$comment" />
+    @endif
 </article>
