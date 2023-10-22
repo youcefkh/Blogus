@@ -67,7 +67,7 @@
     </header>
 
     <!-- Topic Nav -->
-    <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
+    {{-- <nav class="w-full py-4 border-t border-b bg-gray-100" x-data="{ open: false }">
         <div class="block sm:hidden">
             <a href="#"
                 class="md:hidden text-base font-bold uppercase text-center flex justify-center items-center"
@@ -139,7 +139,8 @@
                 </div>
             </div>
         </div>
-    </nav>
+    </nav> --}}
+    <x-responsive-nav :categories="$categories" />
 
 
     <div class="container mx-auto flex flex-wrap flex-col md:flex-row py-6">
