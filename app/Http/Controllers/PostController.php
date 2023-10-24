@@ -76,7 +76,7 @@ class PostController extends Controller
         $categories = Category::with(['posts'])
             ->whereHas('posts', function ($query) {
                 $query->where('posts.active', 1)
-                ->where('posts.published_at', '<=', Carbon::now());
+                    ->where('posts.published_at', '<=', Carbon::now());
             })
             ->leftJoin('category_post', 'categories.id', '=', 'category_post.category_id')
             ->leftJoin('posts', 'category_post.post_id', '=', 'posts.id')
@@ -138,5 +138,26 @@ class PostController extends Controller
             ->paginate(5);
 
         return view('category.index', compact('posts', 'category'));
+    }
+
+    public function search(Request $request)
+    {
+        $posts = Post::where('active', 1)
+            ->leftJoin('category_post', 'posts.id', '=', 'category_post.post_id')
+            ->leftJoin('categories', 'category_post.category_id', '=', 'categories.id')
+            ->where('published_at', '<=', Carbon::now())
+            ->where(function ($query) use ($request) {
+                $query->where('posts.title', 'like', '%' . $request->q . '%')
+                    ->orWhere('posts.body', 'like', '%' . $request->q . '%')
+                    ->orWhere('categories.title', 'like', '%' . $request->q . '%');
+            })
+            ->with(['categories' => function ($query) {
+                $query->select('slug', 'title');
+            }])
+            ->select('posts.*')
+            ->groupBy('posts.id')
+            ->paginate(5);
+
+        return view('post.search', compact('posts'));
     }
 }
