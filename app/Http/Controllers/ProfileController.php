@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
-use Illuminate\Http\RedirectResponse;
+use App\Models\User;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Traits\ImageTrait;
 
 class ProfileController extends Controller
 {
+    use ImageTrait;
     /**
      * Display the user's profile form.
      */
@@ -35,6 +38,24 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    /**
+     * Update profile picture
+     */
+    public function updatePicture(Request $request): RedirectResponse
+    {
+        $user= $request->user();
+        $img_path = $this->uploadImage($request);
+        if($img_path){
+            //delete old user picture
+            if($user->picture != 'avatar.png'){
+                $this->deleteImage('img/'.$user->picture);
+            }
+            $user->picture = $img_path;
+        }
+        $user->save();
+        return Redirect::route('profile.edit')->with('status', 'picture-updated');
     }
 
     /**

@@ -72,7 +72,7 @@
                     <li>
                         <!-- Settings Dropdown -->
                         <div class="w-full sm:flex sm:items-center">
-                            <x-dropdown align="right" width="48">
+                            <x-dropdown align="right">
                                 <x-slot name="trigger">
 
                                     <a href="#"
