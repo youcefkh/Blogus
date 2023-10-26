@@ -1,6 +1,8 @@
 <div class="col-span-1 grid grid-cols-4 gap-2 mb-6">
     <a href="{{ route('post.show', $post) }}" class="overflow-hidden mt-1">
-        <img class="rounded w-full aspect-[4/3] object-cover" src="{{ $post->getThumbnail() }}">
+        <img class="rounded w-full aspect-[4/3] object-cover" data-te-lazy-load-init
+        data-te-lazy-src="{{ $post->getThumbnail() }}"
+        data-te-lazy-placeholder="{{URL::asset('/img/placeholder.jpg')}}">
     </a>
     <div class="col-span-3">
         <a href="{{ route('post.show', $post) }}">
