@@ -13,10 +13,13 @@
         @method('patch')
 
         <div x-data="showImage()">
-            <label for="pp" class="block mt-6">
+            <label for="pp" class="block mt-6 h-56 w-48 relative overflow-hidden rounded shadow group">
                 <span class="sr-only">Choose File</span>
                 <img id="preview" src="{{ URL::asset('/img/' . Auth::user()->picture) }}"
-                class="rounded shadow h-56 w-48 object-cover cursor-pointer">
+                class="w-full h-full object-cover cursor-pointer">
+                <div class="absolute h-0 w-full bottom-0 left-0 bg-slate-800 bg-opacity-50 flex items-center justify-center overflow-hidden group-hover:h-10 transition-all">
+                    <p class="text-white flex items-center gap-1"><i class="far fa-image"></i> <span>Upload image</span></p>
+                </div>
             </label>
             <input type="file" name="image" id="pp" @change="showPreview(event)" class="hidden" accept="image/*"/>
             <x-input-error class="mt-2" :messages="$errors->get('image')" />
