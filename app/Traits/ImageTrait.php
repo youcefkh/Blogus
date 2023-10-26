@@ -4,11 +4,12 @@ namespace App\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 trait ImageTrait
 {
 
-    public function uploadImage(Request $request)
+    public static function uploadImage(Request $request)
     {
         $validated = $request->validate([
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
@@ -22,10 +23,20 @@ trait ImageTrait
         }
     }
 
-    public function deleteImage(string $path)
+    public static function deleteImage(string $disk = "public", string $folder, string $image)
     {
-        if (File::exists(public_path($path))) {
-            File::delete(public_path($path));
+        $path = $folder . '/' . $image;
+        switch ($disk) {
+            case 'public':
+                if (File::exists(public_path($path))) {
+                    File::delete(public_path($path));
+                }
+            break;
+            case 'storage':
+                if (Storage::exists($path)) {
+                    Storage::disk($folder)->delete($image);
+                }
+            break;
         }
     }
 }

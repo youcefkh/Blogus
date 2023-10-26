@@ -46,11 +46,11 @@ class ProfileController extends Controller
     public function updatePicture(Request $request): RedirectResponse
     {
         $user= $request->user();
-        $img_path = $this->uploadImage($request);
+        $img_path = self::uploadImage($request);
         if($img_path){
             //delete old user picture
             if($user->picture != 'avatar.png'){
-                $this->deleteImage('img/'.$user->picture);
+                self::deleteImage(disk: 'public', folder: 'img', image: $user->picture);
             }
             $user->picture = $img_path;
         }
