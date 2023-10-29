@@ -1,5 +1,4 @@
 <x-app-layout meta-description="Blogus is a home for human stories and ideas">
-
     <section class="container max-w-5xl mx-auto py-6 px-3">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- 3 popular posts -->

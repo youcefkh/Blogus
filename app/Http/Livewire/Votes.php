@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\PostVote;
+use App\Notifications\PostVoted;
 use PhpParser\Node\Expr\Cast\Bool_;
 
 class Votes extends Component
@@ -44,7 +45,7 @@ class Votes extends Component
                 'upvote' => $upvote,
                 'user_id' => $user->id,
             ]);
-
+            $this->sendNotification($this->post->user_id, $upvote);
             return;
         }
 
@@ -57,5 +58,17 @@ class Votes extends Component
         }
 
         
+    }
+
+    private function sendNotification (int $user_id, bool $upvote) {
+        /** @var User $user */
+        $user = User::find($user_id);
+
+        /** check if notification already exist*/
+        $notification = $user->notifications->where('data.post_id', $this->post->id)->where('data.user_id', auth()->user()->id)->where('type', 'App\Notifications\PostVoted')->first();
+        if(!$notification) {
+            $user->notify(new PostVoted($this->post, $upvote));
+        }
+
     }
 }
