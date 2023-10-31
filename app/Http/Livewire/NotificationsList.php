@@ -4,6 +4,7 @@ namespace App\Http\Livewire;
 
 use App\Models\Post;
 use App\Models\User;
+use App\Models\Comment;
 use Livewire\Component;
 
 class NotificationsList extends Component
@@ -20,13 +21,14 @@ class NotificationsList extends Component
         foreach ($this->notifications as $notification) {
             $this->setCustomAttributes($notification);
         }
-        return view('livewire.notifications-list', ['notifications' => $this->notifications]);
+        $notifications = $this->notifications;
+        return view('livewire.notifications-list', compact('notifications'));
     }
 
     public function markAsRead()
     {
-        if ($this->notifications->isNotEmpty()) {
-            $this->notifications?->markAsRead();
+        if ($this->unreadNotifications->isNotEmpty()) {
+            $this->unreadNotifications->markAsRead();
             $this->unreadNotifications = auth()->user()->unreadNotifications;
         }
     }
@@ -41,6 +43,21 @@ class NotificationsList extends Component
                 $notification->setAttribute('post_slug', $post->slug);
                 $notification->setAttribute('user_name', $user->name);
                 $notification->setAttribute('user_picture', $user->picture);
+                break;
+
+            case 'App\Notifications\PostCommented':
+                $post = Post::find($notification->data['post_id']);
+                $user = User::find($notification->data['user_id']);
+                $comment = Comment::find($notification->data['comment_id']);
+                $notification->setAttribute('user_name', $user->name);
+                $notification->setAttribute('user_picture', $user->picture);
+                $notification->setAttribute('post_slug', $post->slug);
+                if ($notification->data['type'] == 'reply') {
+                    $notification->setAttribute('comment', $comment->comment);
+                    $notification->setAttribute('parent_id', $comment->parent_id);
+                } else {
+                    $notification->setAttribute('post_title', $post->title);
+                }
                 break;
         }
     }

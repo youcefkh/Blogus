@@ -17,46 +17,71 @@
             </div>
         </div>
     </button>
-    <div class="flex-col gap-4 w-max min-w-[380px] min-h-[100px] bg-white rounded-lg shadow-xl absolute left-0 z-50 py-4" x-show="show" @click.stop.outside="show=false; $wire.markAsRead()" style="display:none">
+    <div class="flex-col gap-4 w-full md:w-max min-w-[380px] min-h-[100px] max-h-96 overflow-y-auto bg-white rounded-lg shadow-xl absolute left-0 z-50 py-4"
+        x-show="show" @click.stop.outside="show=false; $wire.markAsRead()" style="display:none"
+        x-data="myFunction()">
         @if ($notifications->count() == 0)
             <div class="h-[100px] flex justify-center items-center">
                 <p class="text-gray-500">No notifications</p>
             </div>
         @endif
         @foreach ($notifications as $notification)
-            <div class="flex gap-4 items-center p-4  mx-auto max-w-sm relative" wire:key="{{ $notification->id }}">
+            <div class="flex gap-4 items-center p-4  mx-auto max-w-sm relative cursor-pointer hover:bg-blue-100"
+                wire:key="{{ $notification->id }}" @click="redirect(event)" wire:click="markAsRead">
                 @if ($notification->read_at == null)
                     <span
                         class="text-xs font-bold uppercase px-2 mt-2 mr-2 text-green-900 bg-green-400 border rounded-full absolute top-0 right-0">New</span>
                 @endif
                 <span
-                    class="text-xs font-semibold uppercase m-1 py-1 mr-3 text-gray-500 absolute -bottom-2 right-0">{{ $notification->created_at->diffForHumans() }}</span>
+                    class="text-xs uppercase m-1 py-1 mr-3 text-gray-500 absolute -bottom-2 right-0">{{ $notification->created_at->diffForHumans() }}</span>
 
                 <img class="h-12 w-12 rounded-full object-cover flex-shrink-0"
                     alt="{{ $notification->user_name }}'s avatar"
                     src="{{ URL::asset('img/' . $notification->user_picture) }}" />
 
                 <div>
-                    <h4 class="text-lg font-semibold leading-tight text-gray-900">{{ $notification->user_name }}
+                    <h4 class="text-lg font-semibold leading-tight text-gray-900 mb-1">{{ $notification->user_name }}
                     </h4>
                     @if ($notification->data['type'] == 'upvote')
                         <p class="text-sm text-gray-600 leading-none">Has upvoted your post <a
                                 href="{{ route('post.show', $notification->post_slug) }}"
-                                class="text-blue-500 font-semibold">{{ $notification->post_title }}</a>
+                                class="font-semibold">{{ $notification->post_title }} </a>
                         </p>
                     @elseif ($notification->data['type'] == 'downvote')
-                        <p class="text-sm text-gray-600">Has downvoted your post <a
+                        <p class="text-sm text-gray-600 leading-none">Has downvoted your post <a
                                 href="{{ route('post.show', $notification->post_slug) }}"
-                                class="text-blue-500 font-semibold">{{ $notification->post_title }}</a>
+                                class="font-semibold">{{ $notification->post_title }} </a>
                         </p>
                     @elseif ($notification->data['type'] == 'comment')
-                        <p class="text-sm text-gray-600">Has left a comment on your post <a
-                                href="{{ route('post.show', $notification->post_slug) }}"
-                                class="text-blue-500 font-semibold">{{ $notification->post_title }}</a>
+                        <p class="text-sm text-gray-600 leading-none">Has left a comment on your post <a
+                                href="{{ route('post.show', ['post' => $notification->post_slug, 'commentId' => $notification->data['comment_id']]) . '#comment-' . $notification->data['comment_id'] }}"
+                                class="font-semibold">{{ $notification->post_title }} </a>
+                        </p>
+                    @elseif ($notification->data['type'] == 'reply')
+                        <p class="text-sm text-gray-600 leading-none">Has replied to your comment<a
+                                href="{{ route('post.show', ['post' => $notification->post_slug, 'commentId' => $notification->data['comment_id'], 'parentCommentId' => $notification->parent_id]) . '#comment-' . $notification->data['comment_id'] }}"
+                                class="font-semibold"> "{{$notification->comment}}"</a>
                         </p>
                     @endif
                 </div>
             </div>
         @endforeach
     </div>
+    <script>
+        function myFunction() {
+            return {
+                redirect(event) {
+                    const anchor = event.currentTarget.querySelector("a")
+                    const href = anchor.href;
+                    if (event.target instanceof HTMLAnchorElement) {
+                        event.preventDefault();
+                    }
+                    // to allow the wire:click to trigger
+                    setTimeout(() => {
+                        window.location.href = href;
+                    }, 500);
+                }
+            }
+        }
+    </script>
 </div>

@@ -1,8 +1,8 @@
-<article class="px-6 py-3 mb-2 text-base bg-white rounded-lg dark:bg-gray-900" x-data="{ open: false }" @close.stop="open = false">
+<article class="px-6 py-3 mb-2 text-base rounded-lg dark:bg-gray-900 {{request()->commentId==$comment->id ? 'bg-blue-100' : 'bg-white'}}" x-data="{ open: false }" @close.stop="open = false" id="comment-{{ $comment->id }}">
     <footer class="flex justify-between items-center mb-2 relative">
         <div class="flex items-center">
             <p class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold"><img
-                    class="mr-2 w-6 h-6 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
+                    class="mr-2 w-6 h-6 rounded-full" src="{{ URL::asset('img/' . $comment->user->picture) }}"
                     alt="Michael Gough">{{ $comment->user->name }}</p>
             <p class="text-sm text-gray-600 dark:text-gray-400"><time pubdate datetime="2022-02-08"
                     title="February 8th, 2022">{{ $comment->created_at->diffForHumans() }}</time>
@@ -11,7 +11,7 @@
 
         @auth
             <button id="dropdownComment1Button" data-dropdown-toggle="dropdownComment1"
-                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                class="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                 type="button" @click="open = ! open">
                 <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                     viewBox="0 0 16 3">

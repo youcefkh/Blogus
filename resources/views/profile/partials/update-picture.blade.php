@@ -17,7 +17,7 @@
                 <span class="sr-only">Choose File</span>
                 <img id="preview" src="{{ URL::asset('/img/' . Auth::user()->picture) }}"
                 class="w-full h-full object-cover cursor-pointer">
-                <div class="absolute h-0 w-full bottom-0 left-0 bg-slate-800 bg-opacity-50 flex items-center justify-center overflow-hidden group-hover:h-10 transition-all">
+                <div class="absolute h-0 w-full bottom-0 left-0 bg-slate-800 bg-opacity-50 flex items-center justify-center overflow-hidden group-hover:h-10 transition-all cursor-pointer">
                     <p class="text-white flex items-center gap-1"><i class="far fa-image"></i> <span>Upload image</span></p>
                 </div>
             </label>
