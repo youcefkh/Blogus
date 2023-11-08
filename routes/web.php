@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\ProfileController;
+use App\Mail\PostCommentedMail;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +37,10 @@ Route::get('about-us', [SiteController::class, 'aboutUs'])->name('about-us');
 Route::get('search', [PostController::class, 'search'])->name('search');
 Route::get('posts/{post:slug}', [PostController::class, 'show'])->name('post.show');
 Route::get('category/{category:slug}', [PostController::class, 'byCategory'])->name('category');
+
+Route::get('/notification', function () {
+    $post = Post::find(1);
+    $comment = $post->comments()->first();
+ 
+    return (new PostCommentedMail($post, $comment, auth()->user()))->to(User::find(2)->email);
+});
