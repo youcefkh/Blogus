@@ -4,10 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Post;
 use Illuminate\Bus\Queueable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class PostVoted extends Notification implements ShouldQueue
 {
@@ -29,7 +30,7 @@ class PostVoted extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -38,9 +39,9 @@ class PostVoted extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Someone has voted your post')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('Someone has voted your post')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -55,5 +56,17 @@ class PostVoted extends Notification implements ShouldQueue
             'user_id' => $this->user_id,
             'type' => $this->upvote ? "upvote" : "downvote",
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     */
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'post_id' => $this->post->id,
+            'user_id' => $this->user_id,
+            'type' => $this->upvote ? "upvote" : "downvote",
+        ]);
     }
 }

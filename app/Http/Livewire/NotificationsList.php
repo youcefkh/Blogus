@@ -6,23 +6,43 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use Livewire\Component;
+use Barryvdh\Debugbar\Facades\Debugbar;
+use Filament\Notifications\Notification;
 
 class NotificationsList extends Component
 {
     public $notifications;
     public $unreadNotifications;
+
     public function mount()
     {
-        $this->notifications = auth()->user()->notifications;
+        $this->notifications = collect();
         $this->unreadNotifications = auth()->user()->unreadNotifications;
     }
     public function render()
     {
-        foreach ($this->notifications as $notification) {
+        return view('livewire.notifications-list');
+    }
+
+    public function getListeners()
+    {
+        $user_id = auth()->user()->id;
+        return [
+            "echo-private:App.Models.User.{$user_id},.Illuminate\Notifications\Events\BroadcastNotificationCreated" => 'addNotification'
+        ];
+    }
+
+    public function getNotifications () {
+        $notifications = auth()->user()->notifications;
+        foreach ($notifications as $notification) {
             $this->setCustomAttributes($notification);
         }
-        $notifications = $this->notifications;
-        return view('livewire.notifications-list', compact('notifications'));
+        $this->notifications = $notifications;
+    }
+
+    public function addNotification($data) {
+        $this->getNotifications();
+        $this->unreadNotifications = auth()->user()->unreadNotifications;
     }
 
     public function markAsRead()
@@ -31,6 +51,7 @@ class NotificationsList extends Component
             $this->unreadNotifications->markAsRead();
             $this->unreadNotifications = auth()->user()->unreadNotifications;
         }
+        $this->getNotifications();
     }
 
     private function setCustomAttributes($notification)

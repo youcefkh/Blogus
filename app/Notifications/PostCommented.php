@@ -3,12 +3,14 @@
 namespace App\Notifications;
 
 use App\Models\Post;
+use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class PostCommented extends Notification implements ShouldQueue
 {
@@ -17,10 +19,10 @@ class PostCommented extends Notification implements ShouldQueue
     /**
      * Create a new notification instance.
      */
-    private int $user_id;
+    private User $user;
     public function __construct(private Post $post, private Comment $comment)
     {
-        $this->user_id = Auth::user()->id;
+        $this->user = Auth::user();
     }
 
     /**
@@ -30,7 +32,7 @@ class PostCommented extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail', 'database'];
+        return ['mail', 'database', 'broadcast'];
     }
 
     /**
@@ -39,9 +41,9 @@ class PostCommented extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Someone has commented your post')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->line('Someone has commented your post')
+            ->action('Notification Action', url('/'))
+            ->line('Thank you for using our application!');
     }
 
     /**
@@ -54,8 +56,19 @@ class PostCommented extends Notification implements ShouldQueue
         return [
             'post_id' => $this->post->id,
             'comment_id' => $this->comment->id,
-            'user_id' => $this->user_id,
+            'user_id' => $this->user->id,
             'type' => $this->comment->parent_id ? "reply" : 'comment',
         ];
+    }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     */
+    public function toBroadcast(object $notifiable): BroadcastMessage
+    {
+        return new BroadcastMessage([
+            'comment' => $this->comment->comment,
+            'user_id' => $this->user->id,
+        ]);
     }
 }

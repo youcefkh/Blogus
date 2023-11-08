@@ -23,7 +23,7 @@ trait ImageTrait
         }
     }
 
-    public static function deleteImage(string $disk = "public", string $folder, string $image)
+    public static function deleteImage(string $disk, string $folder, string $image)
     {
         $path = $folder . '/' . $image;
         switch ($disk) {
