@@ -2,11 +2,14 @@
 
 namespace App\Notifications;
 
+use App\Mail\PostCommentedMail;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Comment;
 use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -38,12 +41,9 @@ class PostCommented extends Notification implements ShouldQueue
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(object $notifiable): Mailable
     {
-        return (new MailMessage)
-            ->line('Someone has commented your post')
-            ->action('Notification Action', url('/'))
-            ->line('Thank you for using our application!');
+        return (new PostCommentedMail($this->post, $this->comment, $this->user))->to($notifiable->email);
     }
 
     /**
